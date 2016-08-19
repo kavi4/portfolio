@@ -21,12 +21,12 @@ class Category
 		this.height    = opt.height;
 	}
 
-	render(snap,filter)
+	render(snap)
 	{
 		if(snap)
 		{
 			this.target = snap.image(this.image,this.center.x,this.center.y,this.width,this.height);
-			this.target.attr('filter',filter);
+			this.target.attr('clip-path',this.filter);
 		}
 		else
 		{

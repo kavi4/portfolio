@@ -24,7 +24,14 @@
     </style>
 </head>
 <body>
-	<svg id="Container" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100vh"></svg>
+	<svg id="Container" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100vh">
+     <defs>
+        <clipPath id="hexFilter" clipPathUnits="objectBoundingBox">
+            <polygon points="0.5,0,0.9330127018922193,0.25,0.9330127018922194,0.7499999999999999,0.5,1,0.06698729810778076,0.7500000000000002,0.06698729810778048,0.25000000000000033,0.4999999999999999,0"></polygon>
+        </clipPath>
+     </defs>   
+    </svg>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script type="text/javascript" src="libs/snap.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 </body>

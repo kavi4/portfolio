@@ -82,7 +82,7 @@ class HexGrid
 
 	needNHeight()
 	{
-		return Math.ceil((this.wHeight + this.heightHex-this.indentTop)  / this.heightHexRow);
+		return Math.ceil((this.wHeight + this.heightHex - this.indentTop)  / this.heightHexRow);
 	}
 
 	needNWidth()
