@@ -16,9 +16,127 @@ var categoryes = [
 		name   : "js",
 		image  : "img/vector/sweet.svg",
 		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 3,
+		name   : "vector",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 4,
+		name   : "rastr",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 5,
+		name   : "js",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 0,
+		name   : "vector",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 6,
+		name   : "rastr",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 7,
+		name   : "js",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 8,
+		name   : "vector",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 9,
+		name   : "rastr",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 10,
+		name   : "js",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},{
+		id     : 11,
+		name   : "vector",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 12,
+		name   : "rastr",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 13,
+		name   : "js",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+
+	{
+		id     : 14,
+		name   : "js",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},{
+		id     : 15,
+		name   : "vector",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 16,
+		name   : "rastr",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 17,
+		name   : "js",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 18,
+		name   : "js",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},{
+		id     : 19,
+		name   : "vector",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 20,
+		name   : "rastr",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
+	},
+	{
+		id     : 21,
+		name   : "js",
+		image  : "img/vector/sweet.svg",
+		filter : "url(#hexFilter)"
 	}
 
-]
+];
 
 //= Dot.js
 
@@ -30,75 +148,33 @@ var categoryes = [
 
 //= CategoryGrid.js
 
+
+//= Dependensis.js
+
 var snap              = Snap('#Container');
-var groupHexGrid      = snap.g().attr("class","HexGrid");
-var groupCategoryGrid = snap.g().attr("class","CategoryGrid");
+var body              = snap.g().attr("class","Body");
+var groupHexGrid      = body.g().attr("class","HexGrid");
+var groupCategoryGrid = body.g().attr("class","CategoryGrid");
 
 var hexGrid = new HexGrid({
 	wWidth       : document.documentElement.clientWidth,
 	wHeight      : document.documentElement.clientHeight,
 	hexRadius    : 50
 });
+hexGrid.render(groupHexGrid);
 
 var categoryGrid = new CategoryGrid({
 	hexgrid : hexGrid,
 	data:categoryes
 });
+categoryGrid.render(groupCategoryGrid);
 
 /*hex for filter hex
 var hex = new Hex(new Dot(0.5,0.5),0.5);
 hex.render(snap);
 */
 
-categoryGrid.render(groupCategoryGrid);
-hexGrid.render(groupHexGrid);
+dependensis.rerenderhexGrid(hexGrid);
+dependensis.resizeCategoryes(hexGrid,categoryGrid);
+dependensis.categoryes(body,hexGrid,categoryGrid);
 
-
-window.addEventListener// дорендер сетки
-(	
-	"resize",
-	function()
-	{
-		var thisWidth  = document.documentElement.clientWidth;
-		var thisHeight = document.documentElement.clientHeight;
-
-		if(thisWidth - hexGrid.wWidth >= hexGrid.widthHex || thisHeight - hexGrid.wHeight >= hexGrid.heightHexRow)
-		{
-			hexGrid.wHeight = thisHeight;//устанавливаем новое состояние документа
-			hexGrid.wWidth  = thisWidth;
-			hexGrid.render();
-		}
-	}
-);
-
-var lastWidth  = document.documentElement.clientWidth;
-var lastHeight = document.documentElement.clientHeight;
-
-window.addEventListener//ререндер категорий
-(	
-	"resize",
-	function()
-	{
-		var thisWidth  = document.documentElement.clientWidth;
-		var thisHeight = document.documentElement.clientHeight;
-
-		if(thisWidth <= categoryGrid.farawayPosX || thisHeight <= categoryGrid.farawayPosY)
-		{
-			hexGrid.wHeight = thisHeight;//устанавливаем новое состояние документа
-			hexGrid.wWidth  = thisWidth;
-
-			categoryGrid.render();
-
-			lastHeight = thisHeight;
-			lastWidth  = thisWidth;
-		}
-
-		if(thisHeight - lastHeight >= 2*hexGrid.heightHexRow || thisWidth - lastWidth >= 2*hexGrid.widthHex)
-		{
-			categoryGrid.render();
-			lastHeight = thisHeight;
-			lastWidth  = thisWidth;
-		}
-
-	}
-);

@@ -11,14 +11,15 @@ class Category
 
 	constructor(opt)
 	{
-		this.id        = opt.id;
-		this.center    = opt.center;
-		this.name      = opt.name;
-		this.target    = null;
-		this.image     = opt.image;
-		this.filter    = opt.filter;
-		this.width     = opt.width;
-		this.height    = opt.height;
+		this.id     = opt.id;
+		this.center = opt.center;
+		this.name   = opt.name;
+		this.target = null;
+		this.image  = opt.image;
+		this.filter = opt.filter;
+		this.width  = opt.width;
+		this.height = opt.height;
+		this.active = false;
 	}
 
 	render(snap)
@@ -34,4 +35,15 @@ class Category
 			this.target.attr("y",this.center.y);
 		}
 	}
+
+	hide()
+	{
+		this.target.transform('s0');
+	}
+
+	show()
+	{
+		this.target.transform('s1');
+	}
+
 }

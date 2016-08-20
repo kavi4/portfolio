@@ -39,7 +39,7 @@ class HexGrid
 
 	}
 
-	render(snap)
+	render(snap,nx,ny)
 	{
 		if(snap)
 		{
@@ -54,7 +54,10 @@ class HexGrid
 			var needNHeight = this.needNHeight() + 1;
 			var needNWidth  = this.needNWidth()  + 1;
 
-			if(needNWidth > this.nHeight)
+			if(nx)needNWidth  = nx;
+			if(ny)needNHeight = ny;
+
+			if(needNHeight > this.nHeight)
 			{
 				for(var ny = this.nHeight; ny<needNHeight; ny++)
 				{

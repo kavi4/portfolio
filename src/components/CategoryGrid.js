@@ -5,23 +5,24 @@ class CategoryGrid
 {
 	constructor(opt)
 	{
-		this.grid = opt.hexgrid;
-		this.categoryes = [];
-		this.count  = 0;
-		this.snap   = null;
-		this.farawayPosX = 0;
-		this.farawayPosY = 0;
+		this.grid         = opt.hexgrid;
+		this.categoryes   = [];
+		this.catCount     = 0;
+		this.snap         = null;
+		this.farawayPosX  = 0;
+		this.farawayPosY  = 0;
+		this.cashRectDots = [];
+		this.haveNotPlace = false;
 		this.init(opt.data);
 	}
 
 	init(data)
 	{
-
-		this.count = data.length;
-		var dots   = this.getRandomDots();
+		this.catCount      = data.length;
+		var dots           = this.getRandomDots();
 		var widthAndHeight = this.grid.hexRadius*2;
 
-		for(var i =0; i<this.count; i++)
+		for(var i =0; i<this.catCount; i++)
 		{
 			this.categoryes[i] = new Category({
 				id     : data[i].id,
@@ -35,6 +36,25 @@ class CategoryGrid
 		}
 	}
 
+	show()
+	{
+		for(var i=0;i<this.count; i++)
+		{
+			this.categoryes[i].show();
+		}
+	}
+
+	hide()
+	{
+		for(var i=0;i<this.count; i++)
+		{
+			if(!this.categoryes[i].active)
+			{
+				this.categoryes[i].hide();
+			}
+		}
+	}
+
 	render(snap)
 	{
 
@@ -45,6 +65,7 @@ class CategoryGrid
 				this.categoryes[i].render(snap,this.filter);
 			}
 			this.snap = snap;
+			
 		}
 		else
 		{
@@ -57,6 +78,7 @@ class CategoryGrid
 				this.categoryes[i].render();
 			}
 		}
+		
 	}
 
 	getRandomDots()
@@ -74,10 +96,20 @@ class CategoryGrid
 			countPlaces+= maxNXOdd;
 		}
 
-		for(var i=0; i<this.count; i++)
+		if(countPlaces <= this.catCount)
 		{
-			dots[i] = getDot(this);
+			this.haveNotPlace = true;
+			dots = getRectDots(this);
 		}
+		else
+		{
+			this.haveNotPlace = false;
+			for(var i=0; i<this.catCount; i++)
+			{
+				dots[i] = getDot(this);
+			}
+		}
+
 		return dots;
 
 	
@@ -138,6 +170,38 @@ class CategoryGrid
 			if(y + diam > target.farawayPosY){target.farawayPosY = y+diam;}
 
 			return new Dot(x,y);
+		}
+
+		function getRectDots(target)//if have not place
+		{
+			if(target.cashRectDots[0])
+			{
+				return target.cashRectDots;
+			}
+			else
+			{
+				var dots = [];
+				var edge = Math.ceil(Math.sqrt(target.catCount));
+
+				for(var i =0; i<edge; i++)
+				{
+					for(var j =0; j<edge; j++)
+					{
+						var number = i * edge + j;
+						target.grid.render(0,edge+2,edge+2);//дорисовываем сетку для недостающих элементов
+
+						if(i%2==0)
+						{
+							dots[number] = new Dot( (j+1)*target.grid.widthHex - target.grid.indentLeft - target.grid.hexRadius, i*target.grid.heightHexRow );
+						}else
+						{
+							dots[number] = new Dot( (j+1)*target.grid.widthHex - target.grid.hexRadius, i*target.grid.heightHexRow);
+						}
+					}
+				}
+				return dots;
+			}
+			
 		}
 	}
 }
