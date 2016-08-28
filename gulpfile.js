@@ -37,6 +37,7 @@ var path =
 	{
 		components:'src/components/*.js',
 		html:'src/index.html',
+		libs:'src/libs/*.js',
 
 	}
 }
@@ -71,6 +72,7 @@ gulp.task('libs',function()
 gulp.task('watch',function(){
 	gulp.watch(path.watch.components,['components'])
 	gulp.watch(path.watch.html,['html'])
+	gulp.watch(path.watch.libs,['libs'])
 })
 
 gulp.task('clean',function(){

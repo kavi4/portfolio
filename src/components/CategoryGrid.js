@@ -3,15 +3,23 @@
 
 class CategoryGrid
 {
+	get haveNotPlace()   {return this._haveNotPlace;}
+	set haveNotPlace(value)
+	{
+		this._haveNotPlace = value;
+		this.onhaveNotPlaceChanged(value);
+	}
+
 	constructor(opt)
 	{
 		this.grid         = opt.hexgrid;
 		this.categoryes   = [];
 		this.catCount     = 0;
-		this.snap         = null;
+		this.target       = null;
 		this.farawayPosX  = 0;
 		this.farawayPosY  = 0;
 		this.cashRectDots = [];
+		this.onhaveNotPlaceChanged = function(){};
 		this.haveNotPlace = false;
 		this.init(opt.data);
 	}
@@ -36,35 +44,48 @@ class CategoryGrid
 		}
 	}
 
-	show()
+	show(callback)
 	{
-		for(var i=0;i<this.count; i++)
+		for(var i=0;i<this.catCount; i++)
 		{
-			this.categoryes[i].show();
-		}
-	}
-
-	hide()
-	{
-		for(var i=0;i<this.count; i++)
-		{
-			if(!this.categoryes[i].active)
+			if(i == this.categoryes.length-1)
 			{
-				this.categoryes[i].hide();
+				this.categoryes[i].show(callback);
+			}
+			else
+			{
+				this.categoryes[i].show();
 			}
 		}
 	}
 
-	render(snap)
+	hide(callback)
 	{
+		for(var i=0;i<this.catCount; i++)
+		{
+			if(!this.categoryes[i].active)
+			{
+				if(i == this.catCount-1)
+				{
+					this.categoryes[i].hide(callback);
+				}
+				else
+				{
+					this.categoryes[i].hide();
+				}
+			}
+		}
+	}
 
+	render(snap,callback)
+	{
 		if(snap)
 		{
 			for(var i=0; i<this.categoryes.length; i++)
 			{
-				this.categoryes[i].render(snap,this.filter);
+				this.categoryes[i].render(snap);
 			}
-			this.snap = snap;
+			this.target = snap;
 			
 		}
 		else
@@ -78,7 +99,7 @@ class CategoryGrid
 				this.categoryes[i].render();
 			}
 		}
-		
+		if(callback){callback();}
 	}
 
 	getRandomDots()
@@ -160,19 +181,17 @@ class CategoryGrid
 				x = maxNXEven * target.grid.widthHex;
 				y = dotNumber / sizedublerow * 2*target.grid.heightHexRow - target.grid.indentTop;
 			}
+
+			var thisFarPosX = x + target.grid.hexRadius;
+			var thisFarPosY = y + target.grid.hexRadius;
 			
-			x-= target.grid.hexRadius;
-			y-= target.grid.hexRadius;
-
-			var diam = 2*target.grid.hexRadius;
-
-			if(x + diam > target.farawayPosX){target.farawayPosX = x+diam;}
-			if(y + diam > target.farawayPosY){target.farawayPosY = y+diam;}
+			if(thisFarPosX > target.farawayPosX){target.farawayPosX = thisFarPosX;}
+			if(thisFarPosY > target.farawayPosY){target.farawayPosY = thisFarPosY;}
 
 			return new Dot(x,y);
 		}
 
-		function getRectDots(target)//if have not place
+		function getRectDots(target)//если нехватает места
 		{
 			if(target.cashRectDots[0])
 			{
@@ -192,16 +211,20 @@ class CategoryGrid
 
 						if(i%2==0)
 						{
-							dots[number] = new Dot( (j+1)*target.grid.widthHex - target.grid.indentLeft - target.grid.hexRadius, i*target.grid.heightHexRow );
+							dots[number] = new Dot( 
+								(j+1)*target.grid.widthHex - target.grid.indentLeft,
+								i*target.grid.heightHexRow + target.grid.heightHexRow - target.grid.indentTop);
 						}else
 						{
-							dots[number] = new Dot( (j+1)*target.grid.widthHex - target.grid.hexRadius, i*target.grid.heightHexRow);
+							dots[number] = new Dot( 
+								(j+1)*target.grid.widthHex ,
+								i*target.grid.heightHexRow + target.grid.heightHexRow - target.grid.indentTop);
 						}
 					}
 				}
 				return dots;
 			}
-			
 		}
+
 	}
 }

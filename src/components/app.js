@@ -161,20 +161,17 @@ var hexGrid = new HexGrid({
 	wHeight      : document.documentElement.clientHeight,
 	hexRadius    : 50
 });
+
 hexGrid.render(groupHexGrid);
 
 var categoryGrid = new CategoryGrid({
 	hexgrid : hexGrid,
-	data:categoryes
+	data:categoryes,
 });
+
 categoryGrid.render(groupCategoryGrid);
 
-/*hex for filter hex
-var hex = new Hex(new Dot(0.5,0.5),0.5);
-hex.render(snap);
-*/
-
-dependensis.rerenderhexGrid(hexGrid);
-dependensis.resizeCategoryes(hexGrid,categoryGrid);
-dependensis.categoryes(body,hexGrid,categoryGrid);
+dependensis.supportRenderingHexGrid(hexGrid);
+dependensis.supportResizingCategoryes(hexGrid,categoryGrid);
+dependensis.supportMovingcategoryes(body,hexGrid,categoryGrid);
 

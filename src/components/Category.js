@@ -24,26 +24,45 @@ class Category
 
 	render(snap)
 	{
+		var x = this.center.x - this.width  / 2;
+		var y = this.center.y - this.height / 2;
+
 		if(snap)
 		{
-			this.target = snap.image(this.image,this.center.x,this.center.y,this.width,this.height);
+			this.target = snap.image(this.image,x,y,this.width,this.height).attr("transform","s0,"+this.center.x+","+this.center.y);
 			this.target.attr('clip-path',this.filter);
+			this.show();
 		}
 		else
 		{
-			this.target.attr("x",this.center.x);
-			this.target.attr("y",this.center.y);
+			this.target.attr("x",x);
+			this.target.attr("y",y);
+		}
+		
+	}
+
+	hide(callback)
+	{
+		if(callback)
+		{
+			this.target.animate({transform:"s(0)"},500,mina.elastic(),callback);
+		}
+		else
+		{
+			this.target.animate({transform:"s(0)"},500,mina.elastic());
 		}
 	}
 
-	hide()
+	show(callback)
 	{
-		this.target.transform('s0');
-	}
-
-	show()
-	{
-		this.target.transform('s1');
+		if(callback)
+		{
+			this.target.animate({transform:"s(1)"},500,mina.linear(),callback);
+		}
+		else
+		{
+			this.target.animate({transform:"s(1)"},500,mina.linear());
+		}
 	}
 
 }

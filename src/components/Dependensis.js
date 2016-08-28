@@ -1,13 +1,15 @@
 ;var dependensis = (function(){
 	var result = {};
 
-	result.rerenderhexGrid = function(hexGrid)
+	result.supportRenderingHexGrid = function(hexGrid)
 	{
 		window.addEventListener// дорендер сетки
 		(	
 			"resize",
 			function()
 			{
+				body.animate({transform:'translate(0,0)'},500,mina.linear);
+
 				var thisWidth  = document.documentElement.clientWidth;
 				var thisHeight = document.documentElement.clientHeight;
 
@@ -21,7 +23,7 @@
 		);
 	}
 
-	result.resizeCategoryes = function(hexGrid,categoryGrid)
+	result.supportResizingCategoryes = function(hexGrid,categoryGrid)
 	{
 		var lastWidth  = document.documentElement.clientWidth;
 		var lastHeight = document.documentElement.clientHeight;
@@ -39,15 +41,23 @@
 					hexGrid.wHeight = thisHeight;//устанавливаем новое состояние документа
 					hexGrid.wWidth  = thisWidth;
 
-					categoryGrid.render();
-
+					categoryGrid.hide(function()
+					{
+						categoryGrid.render();
+						categoryGrid.show();
+					});
+					
 					lastHeight = thisHeight;
 					lastWidth  = thisWidth;
 				}
-
+				
 				if(thisHeight - lastHeight >= 2*hexGrid.heightHexRow || thisWidth - lastWidth >= 2*hexGrid.widthHex)
 				{
-					categoryGrid.render();
+					categoryGrid.hide(function()
+					{
+						categoryGrid.render();
+						categoryGrid.show();
+					});
 					lastHeight = thisHeight;
 					lastWidth  = thisWidth;
 				}
@@ -56,13 +66,21 @@
 		);
 	}
 
-	result.categoryes = function(body,hexGrid,categoryGrid)
+	result.supportMovingcategoryes = function(body,hexGrid,categoryGrid)
 	{
 		var startX,startY;
 		var startShiftX;
 		var startShiftY;
 		var maxMovingWidth;
 		var maxMovingHeight;
+
+		categoryGrid.onhaveNotPlaceChanged = function(value)
+		{
+			if(!value)
+			{
+				body.animate({transform:'translate(0,0)'},500,mina.linear);
+			}
+		}
 
 		window.addEventListener // возможность двигаться если места недостаточно
 		(
@@ -102,7 +120,7 @@
 				var shiftY = event.clientY - startY + startShiftY;
 				
 
-				if(shiftX > 0)
+				if(shiftX >= 0)
 				{
 					shiftX = 0;
 				}
@@ -111,7 +129,7 @@
 					shiftX = -maxMovingWidth;
 				}
 
-				if(shiftY > 0)
+				if(shiftY >= 0)
 				{
 					shiftY = 0;
 				}
