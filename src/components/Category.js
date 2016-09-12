@@ -1,6 +1,4 @@
 
-
-
 class Category
 {
 	get center()   {return this._center;}
@@ -26,11 +24,12 @@ class Category
 	{
 		var x = this.center.x - this.width  / 2;
 		var y = this.center.y - this.height / 2;
+		var targetId = RandID();
 
 		if(snap)
 		{
 			this.target = snap.image(this.image,x,y,this.width,this.height).attr("transform","s0,"+this.center.x+","+this.center.y);
-			this.target.attr('clip-path',this.filter);
+			this.target.attr({clipPath:this.filter,id:targetId});
 			this.show();
 		}
 		else

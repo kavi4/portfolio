@@ -139,6 +139,7 @@ var categoryes = [
 ];
 
 //= Dot.js
+//= RandID.js
 
 //= Hex.js
 
@@ -174,4 +175,3 @@ categoryGrid.render(groupCategoryGrid);
 dependensis.supportRenderingHexGrid(hexGrid);
 dependensis.supportResizingCategoryes(hexGrid,categoryGrid);
 dependensis.supportMovingcategoryes(body,hexGrid,categoryGrid);
-
