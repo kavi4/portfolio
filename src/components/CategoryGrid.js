@@ -40,6 +40,7 @@ class CategoryGrid
 				height : widthAndHeight,
 				filter : data[i].filter,
 				center : dots[i],
+				parent : this,
 			});
 		}
 	}
