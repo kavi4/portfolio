@@ -68,7 +68,10 @@ class CategoryGrid
 			{
 				if(i == this.catCount-1)
 				{
-					this.categoryes[i].hide(callback);
+					if(!this.categoryes[i].active)
+					{
+						this.categoryes[i].hide(callback);
+					}
 				}
 				else
 				{

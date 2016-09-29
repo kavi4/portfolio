@@ -146,6 +146,19 @@
 			}
 		}
 	}
-	
+
+	result.supportClickCategory = function(categoryGrid)
+	{
+		var lastTarget = null;
+		categoryGrid.target.mousedown(function(event){
+			var target = event.target;
+			if(lastTarget!=target)
+			{
+				lastTarget = target;
+				var id = target.getAttribute("id");
+			}
+		});
+	}
+
 	return result;
 })();

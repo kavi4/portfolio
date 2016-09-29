@@ -139,6 +139,7 @@ var categoryes = [
 ];
 
 //= Dot.js
+
 //= RandID.js
 
 //= Hex.js
@@ -156,6 +157,7 @@ var snap              = Snap('#Container');
 var body              = snap.g().attr("class","Body");
 var groupHexGrid      = body.g().attr("class","HexGrid");
 var groupCategoryGrid = body.g().attr("class","CategoryGrid");
+var protoWorksGrid    = body.g().attr("class","ProtoWorksGrid");
 
 var hexGrid = new HexGrid({
 	wWidth       : document.documentElement.clientWidth,
@@ -175,3 +177,4 @@ categoryGrid.render(groupCategoryGrid);
 dependensis.supportRenderingHexGrid(hexGrid);
 dependensis.supportResizingCategoryes(hexGrid,categoryGrid);
 dependensis.supportMovingcategoryes(body,hexGrid,categoryGrid);
+dependensis.supportClickCategory(categoryGrid);

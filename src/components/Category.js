@@ -21,6 +21,7 @@ class Category
 		this.parent = opt.parent;
 		this.active = false;
 		this.worksRendered = false;
+		this.dataWorks = opt.dataWorks;
 	}
 
 	render(snap)
@@ -71,7 +72,20 @@ class Category
 	{
 		if(snap && !worksRendered)
 		{
-
+			var dots = _getDotsWorks();
+			for(var i =0;i<dots.length;i++)
+			{
+				var work = new Work({
+					id:RandID(),
+					protoPhoto:this.dataWorks[i].protoPhoto,
+					protoWidth:this.width,
+					protoHeight:this.height,
+					protoCenter:dots[i],
+					protoFilter:this.filter,
+				});
+				work.renderProto();
+				this.works.push(work);
+			}
 		}
 		else
 		{
@@ -89,7 +103,7 @@ class Category
 
 	}
 
-	_getDotsWorks(n)
+	_getDotsWorks()
 	{
 		var grid = this.parent.grid;
 		var dots        = [];
@@ -142,7 +156,7 @@ class Category
 
 		function addDotIfCan(x,y)
 		{
-			if(ElemsView < n)
+			if(ElemsView < this.dataWorks.length)
 			{
 				if(y >= minPosY)
 				{
