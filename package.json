@@ -18,15 +18,15 @@
   "homepage": "https://github.com/kavi4/portfolio#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-clean": "^0.3.1",
-    "gulp-clean-css": "^2.0.12",
-    "gulp-concat": "^2.6.0",
-    "gulp-concat-css": "^2.2.0",
-    "gulp-notify": "^2.2.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-rigger": "^0.5.8",
-    "gulp-sass": "^2.1.0",
-    "gulp-uglify": "^1.5.1",
+    "gulp-autoprefixer": "",
+    "gulp-clean": "",
+    "gulp-clean-css": "",
+    "gulp-concat": "",
+    "gulp-concat-css": "",
+    "gulp-notify": "",
+    "gulp-rename": "",
+    "gulp-rigger": "",
+    "gulp-sass": "",
+    "gulp-uglify": ""
   }
 }

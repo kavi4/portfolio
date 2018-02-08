@@ -11,6 +11,8 @@ class Hex
 	{
 		this.center = dot;
 		this.radius = radius;
+		this.target = null;
+		this.coords = null;
 		this.initCoords();
 	}
 
@@ -22,9 +24,8 @@ class Hex
 		}
 		else
 		{
-			this.target.attr('points') = this.coords.join(',');
+			this.target.attr('points',this.coords.join(','));
 		}
-		
 	}
 
 	initCoords()

@@ -1,7 +1,7 @@
 
-var RandID = function(len)
+var RandID = function(num)
 {
-	var length = len?len:10;
+	var length = 8;
 	var time = +new Date();
 		 
 	var _getRandomInt = function( min, max ) 
@@ -17,6 +17,6 @@ var RandID = function(len)
 		var index = _getRandomInt( 0, parts.length - 1 );
 		id += parts[index];
 	}
-	return id;
+	return num+"-"+id;
 
 }

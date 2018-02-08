@@ -27,36 +27,42 @@ class CategoryGrid
 	init(data)
 	{
 		this.catCount      = data.length;
-		var dots           = this.getRandomDots();
 		var widthAndHeight = this.grid.hexRadius*2;
 
 		for(var i =0; i<this.catCount; i++)
 		{
 			this.categoryes[i] = new Category({
-				id     : data[i].id,
-				name   : data[i].name,
-				image  : data[i].image,
-				width  : widthAndHeight,
-				height : widthAndHeight,
-				filter : data[i].filter,
-				center : dots[i],
-				parent : this,
+				id       : data[i].id,
+				name     : data[i].name,
+				image    : data[i].image,
+				width    : widthAndHeight,
+				height   : widthAndHeight,
+				filter   : data[i].filter,
+				parent   : this,
+				data     : data,
+				mainColor: data[i].mainColor,
 			});
 		}
 	}
 
 	show(callback)
 	{
+		this.farawayPosY = 0;
+		this.farawayPosX = 0;
+
 		for(var i=0;i<this.catCount; i++)
 		{
-			if(i == this.categoryes.length-1)
+			var category = this.categoryes[i];
+			if(i == this.catCount-1)
 			{
-				this.categoryes[i].show(callback);
+				callback?category.show(callback):category.show();
 			}
 			else
 			{
-				this.categoryes[i].show();
+				category.show();
 			}
+			if(category.center.x+this.grid.widthHex/2>this.farawayPosX){this.farawayPosX = category.center.x+this.grid.widthHex/2}
+			if(category.center.y+this.grid.heightHexRow/2>this.farawayPosY){this.farawayPosY = category.center.y+this.grid.heightHexRow/2}
 		}
 	}
 
@@ -64,19 +70,13 @@ class CategoryGrid
 	{
 		for(var i=0;i<this.catCount; i++)
 		{
-			if(!this.categoryes[i].active)
+			if(i == this.catCount-1)
 			{
-				if(i == this.catCount-1)
-				{
-					if(!this.categoryes[i].active)
-					{
-						this.categoryes[i].hide(callback);
-					}
-				}
-				else
-				{
-					this.categoryes[i].hide();
-				}
+				callback?this.categoryes[i].hide(callback):this.categoryes[i].hide();
+			}
+			else
+			{
+				this.categoryes[i].hide();
 			}
 		}
 	}
@@ -85,8 +85,10 @@ class CategoryGrid
 	{
 		if(snap)
 		{
+			var dots = this.getDots();
 			for(var i=0; i<this.categoryes.length; i++)
 			{
+				this.categoryes[i].center = dots[i];
 				this.categoryes[i].render(snap);
 			}
 			this.target = snap;
@@ -96,23 +98,45 @@ class CategoryGrid
 		{
 			this.farawayPosX = 0;
 			this.farawayPosY = 0;
-			var newDots = this.getRandomDots();
+			var newDots = this.getDots();
 			for(var i =0; i<this.categoryes.length; i++)
 			{
-				this.categoryes[i].center = newDots[i];
-				this.categoryes[i].render();
+				if(i == this.categoryes.length-1)
+				{
+					this.categoryes[i].center = newDots[i];
+					callback?this.categoryes[i].render(0,callback):this.categoryes[i].render();
+				}
+				else
+				{
+					this.categoryes[i].center = newDots[i];
+					this.categoryes[i].render();
+				}
 			}
 		}
-		if(callback){callback();}
 	}
 
-	getRandomDots()
+	disableAll()
+	{
+		var active = false;
+		for(var i =0;i<this.categoryes.length;i++)
+		{
+			if(this.categoryes[i].active)
+			{
+				active = this.categoryes[i];
+				this.categoryes[i].hideWorks();
+				this.categoryes[i].active = false;
+			}
+		}
+		return active;
+	}
+
+	getDots()
 	{
 		var dots         = [];
 		var numbers      = [];
-		var maxNY        = Math.floor( (this.grid.wHeight - this.grid.indentTop)  / this.grid.heightHexRow );
-		var maxNXEven    = Math.floor( (this.grid.wWidth  - this.grid.indentLeft) / this.grid.widthHex );
-		var maxNXOdd     = Math.floor(this.grid.wWidth / this.grid.widthHex);
+		var maxNY        = Math.floor( (this.grid.wHeight - this.grid.indentTop)  / this.grid.heightHexRow )-1;
+		var maxNXEven    = Math.floor( (this.grid.wWidth  - this.grid.indentLeft) / this.grid.widthHex )-1;
+		var maxNXOdd     = Math.floor(this.grid.wWidth / this.grid.widthHex)-1;
 		var sizedublerow = maxNXEven + maxNXOdd;
 		var countPlaces  = Math.floor(maxNY/2) * (maxNXEven +  maxNXOdd);
 
@@ -134,7 +158,6 @@ class CategoryGrid
 				dots[i] = getDot(this);
 			}
 		}
-
 		return dots;
 
 	
@@ -188,7 +211,6 @@ class CategoryGrid
 
 			var thisFarPosX = x + target.grid.hexRadius;
 			var thisFarPosY = y + target.grid.hexRadius;
-			
 			if(thisFarPosX > target.farawayPosX){target.farawayPosX = thisFarPosX;}
 			if(thisFarPosY > target.farawayPosY){target.farawayPosY = thisFarPosY;}
 

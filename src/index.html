@@ -15,17 +15,32 @@
     	body{
     		height: 100%;
     		display: flex;
+            background-image: url(img/vector/bg_pattern_12.png);
     	}
-    	polyline{
+
+    	.HexGrid {
     		stroke:black;
-    		fill:none;
     		stroke-width:1;
+            transition: none;
+            fill:rgba(0,0,0,0);
     	}
+
+        .viewHexGrid
+        {
+            stroke: rgba(0,0,0,0.3);
+        }
+
         image
         {
             stroke: black;
             stroke-width:1;
+            fill:rgba(0,0,0,0.5);
         }
+        polyline.dark{
+            transition: all linear 0.3s;
+            fill: rgba(0,0,0,0.5);
+        }
+
     </style>
 </head>
 <body>
@@ -34,8 +49,17 @@
         <clipPath id="hexFilter" clipPathUnits="objectBoundingBox">
             <polygon points="0.5,0,0.9330127018922193,0.25,0.9330127018922194,0.7499999999999999,0.5,1,0.06698729810778076,0.7500000000000002,0.06698729810778048,0.25000000000000033,0.4999999999999999,0"></polygon>
         </clipPath>
+
+        <filter id="grayFilter">
+            <feColorMatrix in="a1" type="saturate" values="0"></feColorMatrix>
+        </filter>
+
+        <filter id="blurFilter">
+            <feGaussianBlur stdDeviation="5"/>
+        </filter>
      </defs>   
     </svg>
+    <script type="text/javascript" src="libs/anime.js"></script>
 	<script type="text/javascript" src="libs/snap.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 </body>
